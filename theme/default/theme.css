@@ -47,7 +47,8 @@ img.dccon					{	max-height:100px; }
 */
 @keyframes SubsAni { 50%	{ color:red; } }
 .chat_subscribe_box,
-.chat_cheer_box			{	text-align:center; 
+.chat_cheer_box,
+.chat_raid_box			{	text-align:center; 
 											animation:SubsAni 6 1s ease; }
 /* 후원 금액 */
 .chat_cheer_text									{ color:red; display:inline-block; }
