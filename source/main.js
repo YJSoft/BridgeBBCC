@@ -31,6 +31,9 @@ configDefault = {
     }, {
         exe: "theme",
         msg: "!!theme"
+    }, {
+        exe: "snippet",
+        msg: "!!snippet"
     }],
     replaceMsgs: [],
     webSocket: "wss://irc-ws.chat.twitch.tv:443",
@@ -702,8 +705,47 @@ var commandExecute = function(exe, arg) {
             } else {
                 debugLog("잘못된 테마가 입력되었습니다.");
                 return false;
-            }
+			}
+        
+        case "snippet":
+            arg = arg.match(/[a-zA-Z0-9_-]+/) === null ? "" : arg.match(/[a-zA-Z0-9_-]+/)[0];
+            switch(arg) {
+                case "all":
+                case "twip":
+                    addChatMessage("FAKE_Twipkr","ACTION BridgeBBCC님이 1,000원 후원! - 인줄 알았지? 테스트입니다! \\u0001",{nick:"twipkr",color: "red",badges:"moderator/1"});
+                    if(arg != "all") return true;
+                
+                case "sub":
+                    addChatMessage("DEBUG","12개월 구독! - 인줄 알았지? 테스트입니다!",{color: "red",badges:"moderator/1",subMonths:12});
+                    if(arg != "all") return true;
 
+                case "cheer":
+                    addChatMessage("DEBUG",cheerList[Math.floor(Math.random() * cheerList.length)] + "100 비트다 비트! 인줄 알았지? 테스트입니다!",{color: "red",badges:"moderator/1",cheers:100})
+                    if(arg != "all") return true;
+
+                case "raid":
+                    addChatMessage("DEBUG","",{color: "red", raidFrom:"BridgeBBCC",badges:"moderator/1",raidCount:100});
+                    if(arg != "all") return true;
+                
+                case "emote":
+                    addChatMessage("DEBUG","MrDestructoid 테스트 채팅",{color: "red", badges:"moderator/1",emotes:"28:0-12"});
+                    if(arg != "all") return true;
+
+                case "dccon":
+                    addChatMessage("DEBUG","~결혼반지",{color: "red", badges:"moderator/1"});
+                    if(arg != "all") return true;
+
+                case "long":
+                    addChatMessage("DEBUG",
+                    "헌법재판소는 법관의 자격을 가진 9인의 재판관으로 구성하며, 재판관은 대통령이 임명한다. 비상계엄하의 군사재판은 군인·군무원의 범죄나 군사에 관한 간첩죄의 경우와 초병·초소·유독음식물공급·포로에 관한 죄중 법률이 정한 경우에 한하여 단심으로 할 수 있다. 다만, 사형을 선고한 경우에는 그러하지 아니하다. 국가는 평생교육을 진흥하여야 한다. 국가안전보장에 관련되는 대외정책·군사정책과 국내정책의 수립에 관하여 국무회의의 심의에 앞서 대통령의 자문에 응하기 위하여 국가안전보장회의를 둔다. 대통령은 국무회의의 의장이 되고, 국무총리는 부의장이 된다. 국회나 그 위원회의 요구가 있을 때에는 국무총리·국무위원 또는 정부위원은 출석·답변하여야 하며, 국무총리 또는 국무위원이 출석요구를 받은 때에는 국무위원 또는 정부위원으로 하여금 출석·답변하게 할 수 있다.",
+                    {color: "red", badges:"moderator/1"});
+                    if(arg != "all") return true;
+
+                default:
+                    addChatMessage("DEBUG","BridgeBBCC 테스트 채팅입니다.",{color: "red", badges:"moderator/1"});
+                    return true;
+            }
+            
         default:
             debugLog("잘못된 명령어입니다.");
             return false;
@@ -931,7 +973,7 @@ var client = (function() {
                             case "host_on": // 호스팅되었을 때
                                 debugLog(
                                     args[5].slice(0, -1) + " 호스팅 중.\n" +
-                                    "호스팅중인 채팅의 전송은 지원하지 않습니다.");
+                                    "호스팅중인 채널의 채팅 전송은 지원하지 않습니다.");
                                 break;
 							default:
 								if (configData.allMessageHandle) {

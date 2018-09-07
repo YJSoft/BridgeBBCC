@@ -10,16 +10,16 @@ exports.apply = function(message, data) {
 				
 			var amount = message.match(/ (\d+,)*\d{3}/g);
 			if  (amount == null) {
-				twipMsg = twipMsg.replace("{bits}", "").
+				twip = twipMsg.replace("{bits}", "").
 					replace(/\{0:([^\}]*)}/g, "$1").replace(/\{!0:([^\}]*)}/g, "");
 			}
 			else {
 				amount = amount[0].split(" ")[1].replace(/[^\d]/g, "");
-				twipMsg = twipMsg.replace("{bits}", amount).replace(/((\d)\s+)?비트/, "$2원").
+				twip = twipMsg.replace("{bits}", amount).replace(/((\d)\s+)?비트/, "$2원").
 					replace(/\{!0:([^\}]*)}/g, "$1").replace(/\{0:([^\}]*)}/g, "");
 			}
 			
-			message = '<div class="chat_cheer_box">' + twipMsg + "</div>" + message;
+			message = '<div class="chat_cheer_box">' + twip + "</div>" + message;
 		}
 	}
 	
